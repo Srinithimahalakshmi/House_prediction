@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>House Price Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>House Price Prediction</h1>
+        <form method="post">
+            <label for="GrLivArea">Living Area (sqft):</label>
+            <input type="text" name="GrLivArea" id="GrLivArea" required>
+
+            <label for="GarageCars">Garage Capacity (cars):</label>
+            <input type="text" name="GarageCars" id="GarageCars" required>
+
+            <label for="TotalBsmtSF">Basement Area (sqft):</label>
+            <input type="text" name="TotalBsmtSF" id="TotalBsmtSF" required>
+
+            <label for="OverallQual">Overall Quality (1-10):</label>
+            <input type="text" name="OverallQual" id="OverallQual" required>
+
+            <input type="submit" value="Predict">
+        </form>
+
+        {% if prediction %}
+            <div class="result">
+                Predicted House Price: ₹{{ '{:,.2f}'.format(prediction|float) }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
