@@ -1,72 +1,62 @@
-# House Price Prediction Model 🏠💰
 
-![Real Estate Prediction](https://img.shields.io/badge/domain-real_estate-blue) ![Machine Learning](https://img.shields.io/badge/ML-Regression-green) ![Python](https://img.shields.io/badge/Python-3.8%2B-yellow)
+#  House Price Prediction
 
-Machine learning system for predicting residential property prices using features like location, size, amenities, and market trends. Includes EDA, feature engineering, and multiple regression models.
+##  Overview
+A machine learning system for estimating residential property prices using features like **location**, **size**, **number of rooms**, and **amenities**. Includes data preprocessing, feature engineering, model training (e.g., XGBoost, Random Forest, Gradient Boosting), hyperparameter tuning, and an interactive Flask-based interface with SHAP explainability.
 
-## Features ✨
-- Comprehensive data preprocessing pipeline
-- Advanced feature engineering for real estate data
-- Multiple regression models (XGBoost, Random Forest, Gradient Boosting)
-- Hyperparameter tuning with Optuna
-- Interactive price prediction interface
-- SHAP value interpretation for predictions
+---
 
-## Installation 💻
+##  Table of Contents
+- [⚙️ Installation](#-installation)  
+- [🚀 Usage](#-usage)  
+- [📁 Project Structure](#-project-structure)  
+- [📊 Results](#-results)  
+- [🤝 Contributing](#-contributing)  
+- [📬 Contact](#-contact)  
 
-### Prerequisites
+---
+
+##  Installation
+
+Prerequisites:
 - Python 3.8+
-- pip package manager
+- pip
 
-### Setup
 ```bash
-# Clone repository
 git clone https://github.com/Srinithimahalakshmi/House_prediction.git
 cd House_prediction
 
-# Create virtual environment
-python -m venv house_env
-source house_env/bin/activate  # Linux/Mac
-house_env\Scripts\activate    # Windows
+# Set up virtual environment
+python3 -m venv house_env
+source house_env/bin/activate   # Windows: house_env\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-Dataset 📊
-Real Estate Dataset - Contains property features and historical prices
+````
 
-Located in data/ directory
+---
 
-Features:
+## Usage
 
-Location (latitude, longitude, neighborhood)
+### 1. Data Preparation
 
-Property size (sqft, rooms, bathrooms)
-
-Amenities (pool, garage, garden)
-
-Year built and renovation status
-
-Market conditions at time of sale
-
-Usage 🚀
-1. Data Preparation
-bash
+```bash
 python src/data_preprocessing.py
-2. Model Training
-bash
-# Train XGBoost model
-python src/models/train_xgb.py
+```
 
-# Train Random Forest model
-python src/models/train_rf.py
-3. Make Predictions
-python
+### 2. Train Models
+
+```bash
+python src/models/train_xgb.py       # XGBoost
+python src/models/train_rf.py        # Random Forest
+```
+
+### 3. Predictions in Code
+
+```python
 from src.predict import HousePricePredictor
 
-# Initialize predictor
 predictor = HousePricePredictor('models/xgboost_model.pkl')
-
-# Sample property features
 property_data = {
     'bedrooms': 3,
     'bathrooms': 2.5,
@@ -75,103 +65,89 @@ property_data = {
     'year_built': 2010,
     'waterfront': 0
 }
-
-# Get price prediction
 prediction = predictor.predict(property_data)
 print(f"Predicted price: ${prediction:,.2f}")
-4. Start Web Interface (Flask)
-bash
-python app.py  # Access at http://localhost:5000
-Model Performance 📈
-Model	MAE	RMSE	R² Score
-XGBoost	$42,150	$68,900	0.912
-Random Forest	$45,780	$72,500	0.902
-Gradient Boost	$43,950	$70,100	0.908
-https://results/price_comparison.png <!-- Add actual path -->
+```
 
-Key Features Impacting Price
-Location (geographic coordinates)
+### 4. Launch Web Interface
 
-Living area square footage
+```bash
+python app.py
+```
 
-Number of bathrooms
+Access the app at **[http://localhost:5000](http://localhost:5000)** to interactively get price estimates and explanations.
 
-Proximity to city center
+---
 
-Property age and condition
+## Project Structure
 
-Repository Structure 📂
-text
-├── data/                   # Raw and processed datasets
-│   ├── raw/                # Original datasets
-│   └── processed/          # Cleaned data
-│
-├── models/                 # Trained model files
-│   ├── xgboost_model.pkl
-│   └── random_forest.pkl
-│
-├── src/                    # Source code
+```
+House_prediction/
+├── data/
+│   ├── raw/                  # Original datasets
+│   └── processed/            # Cleaned data for training
+├── src/
 │   ├── data_preprocessing.py
 │   ├── feature_engineering.py
-│   ├── models/             # Model training scripts
+│   ├── models/
 │   │   ├── train_xgb.py
 │   │   ├── train_rf.py
 │   │   └── model_evaluation.py
-│   └── predict.py          # Prediction functions
-│
-├── notebooks/              # Jupyter notebooks
+│   └── predict.py
+├── notebooks/
 │   ├── 01_EDA.ipynb
 │   ├── 02_Feature_Importance.ipynb
 │   └── 03_Model_Comparison.ipynb
-│
-├── web_app/                # Flask application
-│   ├── templates/          
+├── web_app/
+│   ├── app.py
+│   ├── templates/
 │   │   └── index.html
-│   ├── static/
-│   └── app.py
-│
-├── results/                # Evaluation metrics and plots
-├── requirements.txt        # Python dependencies
-└── LICENSE
-How It Works 🧠
-Data Ingestion: Load property data from CSV
+│   └── static/
+├── models/
+│   ├── xgboost_model.pkl
+│   └── random_forest.pkl
+├── results/
+│   └── price_comparison.png
+├── requirements.txt
+└── README.md
+```
 
-Feature Engineering:
+---
 
-Location clustering
+## Results
 
-Age-based value depreciation
+| Model          | MAE       | RMSE      | R² Score |
+| -------------- | --------- | --------- | -------- |
+| XGBoost        | \~\$4,150 | \~\$6,900 | 0.912    |
+| Random Forest  | \~\$4,580 | \~\$7,250 | 0.902    |
+| Gradient Boost | \~\$4,395 | \~\$7,010 | 0.908    |
 
-Amenity score calculation
+Key prediction drivers include **location**, **living area**, **bathrooms**, proximity to the city center, and property age. SHAP-based explanations help interpret feature impact.
 
-Model Training:
+---
 
-Hyperparameter tuning with cross-validation
+## Contributing
 
-Ensemble model creation
+Contributions are welcome! You may:
 
-Prediction:
+* Refine feature engineering or introduce new features
+* Experiment with alternative models or ensembles
+* Enhance model interpretability or UI visuals
+* Improve web app interactivity or experience
+* Add model comparison dashboards or CLI options
 
-Generate price estimates
+To contribute: fork → branch (`feature/YourFeature`) → commit → push → PR
 
-Explain predictions with SHAP values
+---
 
-Try the Web Interface 🌐
-https://web_app/static/screenshot.png <!-- Add actual path -->
-Access the prediction form at http://localhost:5000 after starting the Flask app
+## Contact
 
-Business Applications 💼
-Real estate valuation for buyers/sellers
+👤 **Maintainer**: Srinithi Mahalakshmi
+📧 **Email**: [srinithiarumugam2003@gmail.com](mailto:srinithiarumugam2003@gmail.com)
+🔗 **GitHub**: [Srinithimahalakshmi](https://github.com/Srinithimahalakshmi)
 
-Investment property analysis
+---
 
-Automated property appraisal
+⭐ *If this project has helped you, your star would be greatly appreciated!*
 
-Market trend analysis
-
-Mortgage risk assessment
-
-Contributors 👥
-Srinithi Mahalakshmi
-https://img.shields.io/badge/LinkedIn-Connect-blue
-https://img.shields.io/badge/GitHub-Follow-lightgrey
+```
